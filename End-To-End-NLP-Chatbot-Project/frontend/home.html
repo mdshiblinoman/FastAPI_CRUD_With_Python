@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pandeyji's Eatery - Delicious Indian Food</title>
+    <link rel="stylesheet" type="text/css" href="/static/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="container">
+        <!-- Navigation -->
+        <header>
+            <div class="logo">
+                <i class="fas fa-utensils"></i>
+                <span>Pandeyji's Eatery</span>
+            </div>
+            <nav>
+                <a href="#home">Home</a>
+                <a href="#menu">Menu</a>
+                <a href="#about">About Us</a>
+                <a href="#location">Location</a>
+                <a href="#contact">Contact</a>
+            </nav>
+        </header>
+
+        <!-- Hero Section -->
+        <section id="home" class="hero">
+            <div class="hero-content">
+                <h1>Welcome to Pandeyji's Eatery</h1>
+                <p>Experience the authentic taste of India with our delicious homestyle cooking</p>
+                <a href="#menu" class="cta-btn">View Our Menu</a>
+            </div>
+        </section>
+
+        <!-- Menu Section -->
+        <section id="menu" class="menu-section">
+            <h2><i class="fas fa-book-open"></i> Our Menu</h2>
+            <div id="menu-container" class="menu-grid">
+                <!-- Menu items will be loaded dynamically -->
+                <div class="loading">Loading menu...</div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="about-section">
+            <h2><i class="fas fa-heart"></i> About Us</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <p>Welcome to Pandeyji's Eatery, where we bring the authentic flavors of India to your plate.
+                        Our recipes have been passed down through generations, ensuring that every dish is made with
+                        love and traditional spices.</p>
+                    <p>We take pride in serving fresh, homestyle Indian food that reminds you of home-cooked meals.
+                        From spicy Pav Bhaji to crispy Dosas, we have something for everyone!</p>
+                </div>
+                <div class="about-features">
+                    <div class="feature">
+                        <i class="fas fa-leaf"></i>
+                        <span>Fresh Ingredients</span>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-fire"></i>
+                        <span>Traditional Recipes</span>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-truck"></i>
+                        <span>Fast Delivery</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Location Section -->
+        <section id="location" class="location-section">
+            <h2><i class="fas fa-map-marker-alt"></i> Find Us</h2>
+            <div class="location-content">
+                <div class="address">
+                    <h3>Our Address</h3>
+                    <p><i class="fas fa-building"></i> 38 Patli Gali</p>
+                    <p><i class="fas fa-city"></i> Mumbai, Maharashtra</p>
+                    <p><i class="fas fa-clock"></i> Open: 10:00 AM - 10:00 PM</p>
+                </div>
+                <div class="map-placeholder">
+                    <iframe
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d241317.11609823277!2d72.74109995!3d19.08219865!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c6306644edc1%3A0x5da4ed8f8d648c69!2sMumbai%2C%20Maharashtra!5e0!3m2!1sen!2sin!4v1234567890"
+                        width="100%" height="300" style="border:0; border-radius: 10px;" allowfullscreen=""
+                        loading="lazy">
+                    </iframe>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="contact-section">
+            <h2><i class="fas fa-envelope"></i> Contact Us</h2>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <p><i class="fas fa-phone"></i> +91 79 1234 567</p>
+                    <p><i class="fas fa-envelope"></i> info@pandeyjieatery.com</p>
+                    <p><i class="fas fa-globe"></i> www.pandeyjieatery.com</p>
+                </div>
+                <div class="order-track">
+                    <h3>Track Your Order</h3>
+                    <div class="track-form">
+                        <input type="number" id="order-id-input" placeholder="Enter Order ID">
+                        <button onclick="trackOrder()"><i class="fas fa-search"></i> Track</button>
+                    </div>
+                    <div id="track-result"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer>
+            <p>&copy; 2026 Pandeyji's Eatery. All rights reserved.</p>
+            <div class="social-links">
+                <a href="#"><i class="fab fa-facebook"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Dialogflow Messenger Chat Widget -->
+    <iframe class="chat-bot" id="dialogflowChat" width="350" height="430" allow="microphone;"
+        src="https://console.dialogflow.com/api-client/demo/embedded/26e44813-1fb1-492f-a8b8-6f745839704e">
+    </iframe>
+
+    <script>
+        // Load menu items from API
+        async function loadMenu() {
+            try {
+                const response = await fetch('/menu');
+                const data = await response.json();
+                const menuContainer = document.getElementById('menu-container');
+
+                if (data.menu && data.menu.length > 0) {
+                    menuContainer.innerHTML = data.menu.map(item => `
+                        <div class="menu-item">
+                            <div class="menu-item-icon">
+                                <i class="fas fa-utensils"></i>
+                            </div>
+                            <h3>${item.name}</h3>
+                            <p class="price">₹${item.price.toFixed(2)}</p>
+                        </div>
+                    `).join('');
+                } else {
+                    menuContainer.innerHTML = '<p>No menu items available</p>';
+                }
+            } catch (error) {
+                console.error('Error loading menu:', error);
+                document.getElementById('menu-container').innerHTML = '<p>Error loading menu. Please try again later.</p>';
+            }
+        }
+
+        // Track order
+        async function trackOrder() {
+            const orderId = document.getElementById('order-id-input').value;
+            const resultDiv = document.getElementById('track-result');
+
+            if (!orderId) {
+                resultDiv.innerHTML = '<p class="error">Please enter an order ID</p>';
+                return;
+            }
+
+            try {
+                const response = await fetch(`/order/${orderId}`);
+                const data = await response.json();
+
+                if (data.error) {
+                    resultDiv.innerHTML = `<p class="error"><i class="fas fa-exclamation-circle"></i> ${data.error}</p>`;
+                } else {
+                    resultDiv.innerHTML = `
+                        <p class="success">
+                            <i class="fas fa-check-circle"></i> Order #${data.order_id}: <strong>${data.status}</strong>
+                        </p>
+                    `;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = '<p class="error">Error tracking order. Please try again.</p>';
+            }
+        }
+
+        // Smooth scroll for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            loadMenu();
+        });
+    </script>
+</body>
+
+</html>
